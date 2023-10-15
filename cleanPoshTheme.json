@@ -40,6 +40,18 @@
           "template": " {{ .FormattedMs }} ",
           "trailing_diamond": "\ue0b0",
           "type": "executiontime"
+        },
+        {
+          "background": "#00897b",
+          "background_templates": ["{{ if gt .Code 0 }}#e91e63{{ end }}"],
+          "foreground": "#ffffff",
+          "template": "<parentBackground></>  ",
+          "properties": {
+            "always_enabled": true
+          },
+          "style": "diamond",
+          "trailing_diamond": "",
+          "type": "status"
         }
       ],
       "type": "prompt"
