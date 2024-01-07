@@ -1,0 +1,119 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 2,
+  "final_space": true,
+  "console_title_template": "{{if .Root}}⚡ {{end}}{{.Folder}}",
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "#ffce7b",
+          "template": "\u250c "
+        },
+        {
+          "type": "session",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
+          "foreground": "#1d1626",
+          "background": "#ffce7b",
+          "template": " \uf26c  {{ if .SSHSession }}\ueba9  {{ end }}{{ .UserName }}@{{ .HostName }} "
+        },
+        {
+          "type": "os",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
+          "foreground": "#fffef9",
+          "background": "#C678DD",
+          "template": " {{ if .WSL }}WSL at {{ end }}{{.Icon}} ",
+          "properties": {
+            "windows": "\uf17a"
+          }
+        },
+        {
+          "type": "path",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
+          "foreground": "#fffef9",
+          "background": "#C678DD",
+          "template": "{{ path .Path .Location }} ",
+          "properties": {
+            "style": "full"
+          }
+        },
+        {
+          "type": "git",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
+          "foreground": "#100e23",
+          "background": "#fffffb",
+          "background_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#ffeb95{{ end }}",
+            "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#fcaf17{{ end }}",
+            "{{ if gt .Ahead 0 }}#95ffa4{{ end }}",
+            "{{ if gt .Behind 0 }}#f7acbc{{ end }}",
+            "{{ if .UpstreamGone }}#d1c7b7{{ end }}"
+          ],
+          "template": " {{ if( .UpstreamIcon ) }}{{ url .UpstreamIcon .UpstreamURL }} {{ end }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} <#ed1941>\uf044 {{.Working.String}}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} <#225a1f>\uf046 {{.Staging.String}}</>{{ end }}{{ if gt .StashCount 0 }}  \ueb4b {{.StashCount}}{{ end }}{{ if gt .WorktreeCount 0 }}{{if .IsWorkTree}}<#1d953f>{{ end }}  \uf1bb {{if .IsWorkTree}}</>{{ end }}{{.WorktreeCount}}{{ end }} ",
+          "properties": {
+            "azure_devops_icon": "\uebd8 ",
+            "bitbucket_icon": "\uf171 ",
+            "branch_gone_icon": "\uebcc ",
+            "branch_icon": "\ue0a0 ",
+            "branch_identical_icon": "\uf4c4 ",
+            "commit_icon": "\uf417 ",
+            "fetch_stash_count": true,
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "fetch_worktree_count": true,
+            "git_icon": "\uf1d3 ",
+            "github_icon": "\uf408 ",
+            "gitlab_icon": "\uf296 ",
+            "tag_icon": "\uf412 "
+          }
+        },
+        {
+          "type": "executiontime",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
+          "foreground": "#fffef9",
+          "background": "#33a3dc",
+          "template": " \uf064  {{ .FormattedMs }} ",
+          "properties": {
+            "always_enabled": true
+          }
+        },
+        {
+          "type": "status",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
+          "foreground": "#fffef9",
+          "background": "#ed1941",
+          "template": " \uf12a >>{{ reason .Code }} "
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "#ffce7b",
+          "template": "\u2514"
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "#ffffff",
+          "template": " $"
+        }
+      ],
+      "newline": true
+    }
+  ]
+}

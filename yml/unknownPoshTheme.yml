@@ -1,0 +1,459 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+version: 2.0
+
+# Don't use Material glyphs if possible because it causes issues on VSCode
+# https://github.com/microsoft/vscode/issues/191379
+# Also avoid Emojis because some of the higher range ones won't render correctly on Visual Studio Code
+palettes:
+  template: 'pastel'
+  list:
+    pastel:
+      # Idea is to have dark element text with more pastel background
+      error: '#ff5f5f'
+
+      os_icon: '#f5cead'
+      os_background: '#6a1ce3'
+      shell_root: '88'
+
+      text: '#101010'
+
+      # Path is yellow on blue (it will always be this because that's how I like it)
+      path_text: '#ffe14c'
+      path: '#001070'
+
+      # Git theme would be teal because I just feel like it :)
+      git_text: '#003030'
+      git_logo: '#FF5000'
+      git_repo: '#577DC8' #005f5f
+      git: '#07beb8' #005f5f
+      git_sha: '#57cc99' #005f5f
+      git_detached: '160' #005f5f
+
+      # Who am I violet unless I am root.
+      session: '#cf00cf'
+      session_root: '#c41a4e'
+
+      # Docker context violet
+      docker_context: '#a00060'
+      # docker_context: "146"
+
+      # Battery orange
+      # Low and discharging
+      battery_critical: '160'
+      # Low and charging
+      battery_low: '166'
+      battery_halfway: '172'
+
+      regular: '18' #000087
+      prompt: '#ffe14c'
+      prompt_transient: '243'
+      tool_version: '63'
+      package_version: '66'
+      package_text: '222'
+
+      status_code: '184'
+      jobs: '93'
+      jobs_count: '220'
+      not_me: '230'
+    dark:
+      # Idea is to have dark element text with more pastel background? NAH
+      # https://www.ditig.com/256-colors-cheat-sheet
+      # avoid 0-15 because they get remapped by the Terminal.
+      error: '166'
+
+      os_icon: '230'
+      os_background: '19'
+      shell_root: '88'
+
+      text: '#C0C0C0'
+
+      # Path is yellow on blue
+      path_text: '#ffe14c'
+      path: '#001070'
+
+      # Git theme would be teal because I just feel like it :)
+      git_text: '#C0C070'
+      git_logo: '#FF5000'
+      git_repo: '#1c2541' #005f5f
+      git: '#005050' #005f5f
+      git_sha: '#006060' #005f5f
+      git_detached: '160' #005f5f
+
+      # Who am I violet unless I am root.
+      session: '#800080'
+      session_root: '#c41a4e'
+
+      # Docker context violet
+      docker_context: '#a00060'
+      # docker_context: "146"
+
+      # Battery orange
+      # Low and discharging
+      battery_critical: '160'
+      # Low and charging
+      battery_low: '166'
+      battery_halfway: '172'
+
+      regular: '18' #000087
+      prompt: '#ffe14c'
+      prompt_transient: '243'
+      tool_version: '63'
+      package_version: '66'
+      package_text: '222'
+
+      status_code: '184'
+      jobs: '93'
+      jobs_count: '220'
+      not_me: '230'
+    ansi256:
+      # https://www.ditig.com/256-colors-cheat-sheet
+      # avoid 0-15 because they get remapped by the Terminal.
+      error: '166'
+
+      os_icon: '230'
+      os_background: '19'
+      shell_root: '88'
+
+      text: '250'
+
+      # Path is yellow on blue
+      path_text: '227'
+      path: '21'
+
+      # Git theme would be teal because I just feel like it :)
+      git_text: '252'
+      git_logo: '196'
+      git_repo: '53' #005f5f
+      git: '23' #005f5f
+      git_sha: '30' #005f5f
+      git_detached: '160' #005f5f
+
+      # Who am I violet unless I am root.
+      session: '90'
+      session_root: '160'
+
+      # Docker context violet
+      docker_context: '90'
+      # docker_context: "146"
+
+      # Battery orange
+      # Low and discharging
+      battery_critical: '160'
+      # Low and charging
+      battery_low: '166'
+      battery_halfway: '172'
+
+      regular: '18' #000087
+      prompt: '226'
+      prompt_transient: '243'
+      tool_version: '63'
+      package_version: '66'
+      package_text: '222'
+
+      status_code: '184'
+      jobs: '93'
+      jobs_count: '220'
+      not_me: '230'
+var:
+  ShowLocal: false
+  MyUserName: trajano
+blocks:
+  - type: prompt
+    alignment: left
+    segments:
+      # https://ohmyposh.dev/docs/segments/os
+      # This is actually a hack, I wanted to have a rounded element for whatever the first active one would
+      # be, but I haven't figured it out yet.  So I am using the OS icon for now as a permanent fixture
+      - type: shell
+        style: diamond
+        leading_diamond: ''
+        #trailing_diamond: ""
+        foreground: 'p:os_icon'
+        background_templates:
+          - '{{ if .Root }}p:shell_root{{end}}'
+          - 'p:os_background'
+        template: '{{ .Name }} '
+        properties:
+          mapped_shell_names:
+            pwsh: "\uebc7"
+            bash: "\uebca"
+            zsh: "\ue6a9"
+            # pwsh: 󰨊
+            #bash: "#️⃣"
+            # bash: "󱆃"
+            # bash: "#!"
+            #pwsh: "PS"
+            # 
+            #fish: 󰈺
+            fish: 🐟
+            #zsh: 💤
+            #zsh: 󰬡
+
+      - type: session
+        style: powerline
+        #powerline_symbol: "{{.Var.PowerLineSymbolL}}"
+        # powerline_symbol: ""
+        powerline_symbol: 
+        foreground: 'p:text'
+        background_templates:
+          - '{{ if .Root }}p:session_root{{end}}'
+          - 'p:session'
+        templates:
+          - ' {{ if .SSHSession }}󰢹  {{ .UserName }}  {{ .HostName }}{{ end }} '
+          - ' {{ if ne .Var.MyUserName .UserName }} {{ .UserName }}{{ end }} '
+          - ' {{ if .Var.ShowLocal }} {{ .UserName }}  {{ .HostName }}{{ end }} '
+        templates_logic: first_match
+      - type: text
+        alias: gitRepoText
+        style: powerline
+        #powerline_symbol: "{{.Var.PowerLineSymbolL}}"
+        powerline_symbol: ''
+        foreground: 'p:git_text'
+        background: 'p:git_repo'
+        # template: " <p:git_logo>\ue702</> {{.RepoName}} "
+        template: " {{if .Segments.Contains \"theGit\"}}<p:git_logo>\ue702</> {{.Segments.theGit.RepoName}} {{end}}"
+        # template: "{{if and (ne .Segments.theGit.Dir .PWD) ( .Segments.theGit)}} \ue702 {{.Segments.theGit.RepoName}} {{end}}"
+      - type: path
+        # style: diamond
+        style: powerline
+        # powerline_symbol: ""
+        powerline_symbol: ''
+        properties:
+          style: mixed
+          folder_separator_icon: /
+          home_icon: 🏠
+          mapped_locations:
+            'C:/p': 
+            'C:/': '💾 C:'
+            'D:/': '💾 D:'
+            'E:/': '💾 E:'
+            'C:/dh': 💡
+            # Hack for git bash
+            'C:/Program Files/Git': /
+            # "~/Desktop": 󱈹
+            '~/OneDrive': "\uf0c2"
+            # "~/OneDrive": ☁️
+            '~/Downloads': 󰇚
+            #"~/p": 
+            '~/p': 💡
+        # leading_diamond: ""
+        #   leading_diamond: ""
+        foreground: 'p:path_text'
+        background: 'p:path'
+        template: " {{if .Segments.Contains \"theGit\" }}{{ .PWD | replace .Segments.theGit.Dir \"\" | replace \"\\\\\" \"/\"}}{{else}}{{ .Path }}{{end}} "
+      - type: text
+        style: powerline
+        #powerline_symbol: "{{.Var.PowerLineSymbolL}}"
+        powerline_symbol: ''
+        foreground: 'p:git_text'
+        background: 'p:git'
+        template: " {{if and (.Segments.Contains \"theGit\") (ne .Segments.theGit.Ref \"(detached)\" )}} {{ .Segments.theGit.HEAD }}{{if .Segments.theGit.BranchStatus }} {{ .Segments.theGit.BranchStatus }}{{ end }}{{ if .Segments.theGit.Working.Changed }} \uF044 {{ .Segments.theGit.Working.String }}{{ end }}{{ if and (.Segments.theGit.Staging.Changed) (.Segments.theGit.Working.Changed) }} |{{ end }}{{ if .Segments.theGit.Staging.Changed }} \uF046 {{ .Segments.theGit.Staging.String }}{{ end }} {{end}} "
+        # template: "{{if ne .Ref \"(detached)\" }} {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uF044 {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uF046 {{ .Staging.String }}{{ end }} {{end}}"
+        # properties:
+        #   fetch_status: true
+        #   commit_icon: "🔗"
+      - type: git
+        # This is a hack which will provide the single source of truth for `git` throughout the prompt.
+        style: powerline
+        powerline_symbol: ''
+        invert_powerline: true
+        # powerline_symbol: ""
+        template: ' {{ printf "%.8s" .Commit.Sha }} '
+        foreground: 'p:git_text'
+        background: 'p:git_sha'
+        properties:
+          fetch_status: true
+          commit_icon: '🔗'
+          branch_icon: ' '
+        alias: theGit
+
+      - type: text
+        style: accordion
+        foreground: 'parentBackground'
+        templates:
+          - '{{ if .Root}}{{end}}'
+          - ''
+        #    - ""
+        templates_logic: first_match
+      - type: executiontime
+        style: plain
+        template: '  {{ .FormattedMs }}'
+        properties:
+          threshold: 2000
+          style: austin
+  - type: prompt
+    alignment: right
+    overflow: hide
+    segments:
+      - type: project
+        style: diamond
+        leading_diamond: 
+        trailing_diamond: 
+        invert_powerline: true
+        foreground: 'p:package_text'
+        background: 'p:package_version'
+        template:
+          '{{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }} {{.Version}}{{
+          end }} {{ if .Name }}{{ .Name }}{{ end }}{{ end }}'
+      - type: java
+        style: diamond
+        leading_diamond: 
+        trailing_diamond: 
+        foreground: 'p:package_text'
+        background: 'p:tool_version'
+        template: '  {{ .Major }}.{{ .Minor}}'
+        min_width: 72
+      - type: go
+        style: diamond
+        leading_diamond: 
+        trailing_diamond: 
+        foreground: 'p:package_text'
+        background: 'p:tool_version'
+        template: '  {{ .Major }}.{{ .Minor}}'
+        min_width: 72
+      - type: python
+        style: diamond
+        leading_diamond: 
+        trailing_diamond: 
+        foreground: 'p:package_text'
+        background: 'p:tool_version'
+        template: '  {{ .Major }}.{{ .Minor}}'
+        min_width: 72
+      - type: node
+        style: diamond
+        leading_diamond: 
+        trailing_diamond: 
+        foreground: 'p:package_text'
+        background: 'p:tool_version'
+        template: '  {{ .Major }}.{{ .Minor}}'
+        min_width: 72
+    # - type: time
+    #   style: diamond
+    #   leading_diamond: 
+    #   trailing_diamond: 
+    #   foreground: "p:os_icon"
+    #   background: "p:os_background"
+    #   properties:
+    #     time_format: '15:04'
+    # - type: time
+    #   style: plain
+    #   foreground: "p:red"
+    #   properties:
+    #     time_format: '15:04'
+  - type: rprompt
+    segments:
+      - type: battery
+        style: 'powerline'
+        powerline_symbol: ''
+        invert_powerline: true
+        # "powerline_symbol": ""
+        'foreground': 'p:text'
+        'background_templates':
+          - '{{if and ( lt .Percentage 10 ) (eq "Charging" .State.String)}}p:battery_low{{end}}'
+          - '{{if and ( lt .Percentage 10 ) (eq "Discharging" .State.String)}}p:battery_critical{{end}}'
+          - '{{if lt .Percentage 50 }p:battery_halfway{{end}}'
+          - p:battery_halfway
+        'template': ' {{ if and ( not .Error) ( lt .Percentage 50 )  }}{{ .Icon }}{{ .Percentage }}%{{ end }} '
+        # "template": " {{ if and ( not .Error) ( lt .Percentage 101 )  }}{{ .Icon }}{{ .Percentage }}%{{ end }} "
+        'properties':
+          'discharging_icon': '󰂌 '
+          'charging_icon': '󰂄 '
+          'charged_icon': '󰁹 '
+      - type: docker
+        'style': 'powerline'
+        powerline_symbol: ''
+        invert_powerline: true
+        # powerline_symbol: ""
+        # style: diamond
+        leading_diamond: 
+        trailing_diamond: 
+        foreground: 'p:text'
+        background: 'p:docker_context'
+        template: '{{ if ne .Context "desktop-linux" }}  {{ .Context }} {{end}}'
+
+  - type: prompt
+    alignment: left
+    newline: true
+    segments:
+      - type: text
+        alias: gitDetachedText
+        style: diamond
+        leading_diamond: "\ue0c2"
+        trailing_diamond: 
+        foreground: 'p:git_text'
+        background: 'p:git_detached'
+        # template: "{{if eq .Ref \"(detached)\" }} {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uF044 {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uF046 {{ .Staging.String }}{{ end }} {{end}}"
+        template: "{{if and (.Segments.Contains \"theGit\") (eq .Segments.theGit.Ref \"(detached)\" )}} {{ .Segments.theGit.HEAD }}{{if .Segments.theGit.BranchStatus }} {{ .Segments.theGit.BranchStatus }}{{ end }}{{ if .Segments.theGit.Working.Changed }} \uF044 {{ .Segments.theGit.Working.String }}{{ end }}{{ if and (.Segments.theGit.Staging.Changed) (.Segments.theGit.Working.Changed) }} |{{ end }}{{ if .Segments.theGit.Staging.Changed }} \uF046 {{ .Segments.theGit.Staging.String }}{{ end }} {{end}} "
+
+        # properties:
+        #   fetch_status: true
+        #   commit_icon: "🔗"
+
+  - type: prompt
+    alignment: left
+    newline: true
+    segments:
+      # - type: text
+      #   style: plain
+      #   template: '{{"\u00A0"}}'
+      # https://ohmyposh.dev/docs/segments/status
+      - type: status
+        style: plain
+        foreground: 'p:prompt'
+        # background: "p:red"
+        # background_templates:
+        # - "{{ if .Error }}#e91e63{{ end }}"
+        # trailing_diamond: ""
+        # template: "❌ {{ .Code }} "
+        template: '<p:error></> {{ .Code }} '
+        # properties:
+        #   always_enabled: true
+      # - type: text
+      #   style: plain
+      #   alias: WindowsTerminalCwd
+      #   template: "{{ if and (eq .OS \"windows\") (not .Segments.Session.SSHAccess) }}\u001b]9;9;{{.Env.PWD}}\u001b\\{{end}}"
+      - type: text
+        style: plain
+        foreground: 'p:prompt'
+        foreground_templates:
+          - '{{ if ne .Code 0 }}p:error{{ end }}'
+        # template: ""
+        templates:
+          - '{{ if .Root}}{{end}}'
+          #- "{{ if .Segments.Contains \"Java\" }}{{.Segments.Java}}{{end}}"
+          # - " {{ if and (.Segments.Contains \"Session\")  }}{{end}}"
+          - ''
+          # - ">{{ if and (eq .OS \"windows\") (not .Segments.Session.SSHSession) }}{{.PWD}}{{end}}"
+          # - "❯"
+        templates_logic: first_match
+final_space: true
+# console_title_template: "{{.Folder}}{{if .Root}} :: root{{end}}"
+# Emoji ok on console_title_template
+console_title_template: '{{if .Segments.Session.SSHSession }}☁️{{else}}📁{{end}} {{.Folder}}{{if .Root}} :: root{{end}} {{if .Segments.Session.SSHSession }} {{ if ne .Var.MyUserName .UserName }}🤵🏼 {{ .UserName }}{{ end }} 🌎 {{ .HostName }}{{end}}'
+transient_prompt:
+  background: transparent
+  foreground: 'p:prompt_transient'
+  template: '{{.Folder}} {{ if .Root}}{{else}}❯{{end}} '
+secondary_prompt:
+  background: transparent
+  foreground: white
+  template: '-> '
+#pwd: "{{if or (not .Segments.Contains \"Session\") (not .Segments.Session.SSHAccess) }}osc99{{end}}"
+pwd: '{{ if not .Segments.Session.SSHSession }}osc99{{end}}'
+# tooltips:
+#   - type: git
+#     tips:
+#       - git
+#       - g
+#     style: diamond
+#     foreground: "#193549"
+#     background: "#fffb38"
+#     leading_diamond: 
+#     trailing_diamond: 
+#     template: "{{ .HEAD }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end
+#       }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if
+#       .Working.Changed }}  {{ .Working.String }}{{ end }}"
+#     properties:
+#       fetch_status: true
+#       fetch_upstream_icon: true

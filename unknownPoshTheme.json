@@ -1,0 +1,352 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 2,
+  "final_space": true,
+  "console_title_template": "{{if .Segments.Session.SSHSession }}☁\ufe0f{{else}}📁{{end}} {{.Folder}}{{if .Root}} :: root{{end}} {{if .Segments.Session.SSHSession }} {{ if ne .Var.MyUserName .UserName }}🤵🏼 {{ .UserName }}{{ end }} 🌎 {{ .HostName }}{{end}}",
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "shell",
+          "style": "diamond",
+          "foreground": "p:os_icon",
+          "background_templates": [
+            "{{ if .Root }}p:shell_root{{end}}",
+            "p:os_background"
+          ],
+          "leading_diamond": "\ue0b6",
+          "template": "{{ .Name }} ",
+          "properties": {
+            "mapped_shell_names": {
+              "bash": "\uebca",
+              "fish": "🐟",
+              "pwsh": "\uebc7",
+              "zsh": "\ue6a9"
+            }
+          }
+        },
+        {
+          "type": "session",
+          "style": "powerline",
+          "powerline_symbol": "\ue0cc",
+          "foreground": "p:text",
+          "background_templates": [
+            "{{ if .Root }}p:session_root{{end}}",
+            "p:session"
+          ],
+          "templates": [
+            " {{ if .SSHSession }}\udb82\udcb9  {{ .UserName }} \uf1fa {{ .HostName }}{{ end }} ",
+            " {{ if ne .Var.MyUserName .UserName }}\uf4ff {{ .UserName }}{{ end }} ",
+            " {{ if .Var.ShowLocal }}\uf4ff {{ .UserName }} \uf1fa {{ .HostName }}{{ end }} "
+          ],
+          "templates_logic": "first_match"
+        },
+        {
+          "type": "text",
+          "style": "powerline",
+          "powerline_symbol": "\ue0c6",
+          "foreground": "p:git_text",
+          "background": "p:git_repo",
+          "template": " {{if .Segments.Contains \"theGit\"}}<p:git_logo>\ue702</> {{.Segments.theGit.RepoName}} {{end}}",
+          "alias": "gitRepoText"
+        },
+        {
+          "type": "path",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
+          "foreground": "p:path_text",
+          "background": "p:path",
+          "template": " {{if .Segments.Contains \"theGit\" }}{{ .PWD | replace .Segments.theGit.Dir \"\" | replace \"\\\\\" \"/\"}}{{else}}{{ .Path }}{{end}} ",
+          "properties": {
+            "folder_separator_icon": "/",
+            "home_icon": "🏠",
+            "mapped_locations": {
+              "C:/": "💾 C:",
+              "C:/Program Files/Git": "/",
+              "C:/dh": "💡",
+              "C:/p": "\ue708",
+              "D:/": "💾 D:",
+              "~/Downloads": "\udb80\uddda",
+              "~/OneDrive": "\uf0c2",
+              "~/p": "💡"
+            },
+            "style": "mixed"
+          }
+        },
+        {
+          "type": "text",
+          "style": "powerline",
+          "powerline_symbol": "\ue0c6",
+          "foreground": "p:git_text",
+          "background": "p:git",
+          "template": " {{if and (.Segments.Contains \"theGit\") (ne .Segments.theGit.Ref \"(detached)\" )}} {{ .Segments.theGit.HEAD }}{{if .Segments.theGit.BranchStatus }} {{ .Segments.theGit.BranchStatus }}{{ end }}{{ if .Segments.theGit.Working.Changed }} \uf044 {{ .Segments.theGit.Working.String }}{{ end }}{{ if and (.Segments.theGit.Staging.Changed) (.Segments.theGit.Working.Changed) }} |{{ end }}{{ if .Segments.theGit.Staging.Changed }} \uf046 {{ .Segments.theGit.Staging.String }}{{ end }} {{end}} "
+        },
+        {
+          "type": "git",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b6",
+          "invert_powerline": true,
+          "foreground": "p:git_text",
+          "background": "p:git_sha",
+          "template": " {{ printf \"%.8s\" .Commit.Sha }} ",
+          "properties": {
+            "branch_icon": "\uf418 ",
+            "commit_icon": "🔗",
+            "fetch_status": true
+          },
+          "alias": "theGit"
+        },
+        {
+          "type": "text",
+          "style": "accordion",
+          "foreground": "parentBackground",
+          "templates": [
+            "{{ if .Root}}\ue0c0{{end}}",
+            "\ue0b4"
+          ],
+          "templates_logic": "first_match"
+        },
+        {
+          "type": "executiontime",
+          "style": "plain",
+          "template": " \udb80\udc21 {{ .FormattedMs }}",
+          "properties": {
+            "style": "austin",
+            "threshold": 2000
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "project",
+          "style": "diamond",
+          "invert_powerline": true,
+          "foreground": "p:package_text",
+          "background": "p:package_version",
+          "leading_diamond": "\ue0b6",
+          "trailing_diamond": "\ue0b4",
+          "template": "{{ if .Error }}{{ .Error }}{{ else }}{{ if .Version }}\uf487 {{.Version}}{{ end }} {{ if .Name }}{{ .Name }}{{ end }}{{ end }}"
+        },
+        {
+          "type": "java",
+          "style": "diamond",
+          "foreground": "p:package_text",
+          "background": "p:tool_version",
+          "leading_diamond": "\ue0b6",
+          "trailing_diamond": "\ue0b4",
+          "template": " \ue738 {{ .Major }}.{{ .Minor}}",
+          "min_width": 72
+        },
+        {
+          "type": "go",
+          "style": "diamond",
+          "foreground": "p:package_text",
+          "background": "p:tool_version",
+          "leading_diamond": "\ue0b6",
+          "trailing_diamond": "\ue0b4",
+          "template": " \ue627 {{ .Major }}.{{ .Minor}}",
+          "min_width": 72
+        },
+        {
+          "type": "python",
+          "style": "diamond",
+          "foreground": "p:package_text",
+          "background": "p:tool_version",
+          "leading_diamond": "\ue0b6",
+          "trailing_diamond": "\ue0b4",
+          "template": " \ue73c {{ .Major }}.{{ .Minor}}",
+          "min_width": 72
+        },
+        {
+          "type": "node",
+          "style": "diamond",
+          "foreground": "p:package_text",
+          "background": "p:tool_version",
+          "leading_diamond": "\ue0b6",
+          "trailing_diamond": "\ue0b4",
+          "template": " \ue718 {{ .Major }}.{{ .Minor}}",
+          "min_width": 72
+        }
+      ],
+      "overflow": "hide"
+    },
+    {
+      "type": "rprompt",
+      "segments": [
+        {
+          "type": "docker",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b6",
+          "invert_powerline": true,
+          "foreground": "p:text",
+          "background": "p:docker_context",
+          "leading_diamond": "\ue0b6",
+          "trailing_diamond": "\ue0b4",
+          "template": "{{ if ne .Context \"desktop-linux\" }} \uf308 {{ .Context }} {{end}}"
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "text",
+          "style": "diamond",
+          "foreground": "p:git_text",
+          "background": "p:git_detached",
+          "leading_diamond": "\ue0c2",
+          "trailing_diamond": "\ue0c0",
+          "template": "{{if and (.Segments.Contains \"theGit\") (eq .Segments.theGit.Ref \"(detached)\" )}} {{ .Segments.theGit.HEAD }}{{if .Segments.theGit.BranchStatus }} {{ .Segments.theGit.BranchStatus }}{{ end }}{{ if .Segments.theGit.Working.Changed }} \uf044 {{ .Segments.theGit.Working.String }}{{ end }}{{ if and (.Segments.theGit.Staging.Changed) (.Segments.theGit.Working.Changed) }} |{{ end }}{{ if .Segments.theGit.Staging.Changed }} \uf046 {{ .Segments.theGit.Staging.String }}{{ end }} {{end}} ",
+          "alias": "gitDetachedText"
+        }
+      ],
+      "newline": true
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "status",
+          "style": "plain",
+          "foreground": "p:prompt",
+          "template": "<p:error>\uf00d</> {{ .Code }} "
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "p:prompt",
+          "foreground_templates": [
+            "{{ if ne .Code 0 }}p:error{{ end }}"
+          ],
+          "templates": [
+            "{{ if .Root}}\uf292{{end}}",
+            "\ue285"
+          ],
+          "templates_logic": "first_match"
+        }
+      ],
+      "newline": true
+    }
+  ],
+  "transient_prompt": {
+    "foreground": "p:prompt_transient",
+    "background": "transparent",
+    "template": "{{.Folder}} {{ if .Root}}\uf4df{{else}}❯{{end}} "
+  },
+  "secondary_prompt": {
+    "foreground": "white",
+    "background": "transparent",
+    "template": "-> "
+  },
+  "palettes": {
+    "template": "pastel",
+    "list": {
+      "ansi256": {
+        "battery_critical": "160",
+        "battery_halfway": "172",
+        "battery_low": "166",
+        "docker_context": "90",
+        "error": "166",
+        "git": "23",
+        "git_detached": "160",
+        "git_logo": "196",
+        "git_repo": "53",
+        "git_sha": "30",
+        "git_text": "252",
+        "jobs": "93",
+        "jobs_count": "220",
+        "not_me": "230",
+        "os_background": "19",
+        "os_icon": "230",
+        "package_text": "222",
+        "package_version": "66",
+        "path": "21",
+        "path_text": "227",
+        "prompt": "226",
+        "prompt_transient": "243",
+        "regular": "18",
+        "session": "90",
+        "session_root": "160",
+        "shell_root": "88",
+        "status_code": "184",
+        "text": "250",
+        "tool_version": "63"
+      },
+      "dark": {
+        "battery_critical": "160",
+        "battery_halfway": "172",
+        "battery_low": "166",
+        "docker_context": "#a00060",
+        "error": "166",
+        "git": "#005050",
+        "git_detached": "160",
+        "git_logo": "#FF5000",
+        "git_repo": "#1c2541",
+        "git_sha": "#006060",
+        "git_text": "#C0C070",
+        "jobs": "93",
+        "jobs_count": "220",
+        "not_me": "230",
+        "os_background": "19",
+        "os_icon": "230",
+        "package_text": "222",
+        "package_version": "66",
+        "path": "#001070",
+        "path_text": "#ffe14c",
+        "prompt": "#ffe14c",
+        "prompt_transient": "243",
+        "regular": "18",
+        "session": "#800080",
+        "session_root": "#c41a4e",
+        "shell_root": "88",
+        "status_code": "184",
+        "text": "#C0C0C0",
+        "tool_version": "63"
+      },
+      "pastel": {
+        "battery_critical": "160",
+        "battery_halfway": "172",
+        "battery_low": "166",
+        "docker_context": "#a00060",
+        "error": "#ff5f5f",
+        "git": "#07beb8",
+        "git_detached": "160",
+        "git_logo": "#FF5000",
+        "git_repo": "#577DC8",
+        "git_sha": "#57cc99",
+        "git_text": "#003030",
+        "jobs": "93",
+        "jobs_count": "220",
+        "not_me": "230",
+        "os_background": "#6a1ce3",
+        "os_icon": "#f5cead",
+        "package_text": "222",
+        "package_version": "66",
+        "path": "#001070",
+        "path_text": "#ffe14c",
+        "prompt": "#ffe14c",
+        "prompt_transient": "243",
+        "regular": "18",
+        "session": "#cf00cf",
+        "session_root": "#c41a4e",
+        "shell_root": "88",
+        "status_code": "184",
+        "text": "#101010",
+        "tool_version": "63"
+      }
+    }
+  },
+  "pwd": "{{ if not .Segments.Session.SSHSession }}osc99{{end}}",
+  "var": {
+    "MyUserName": "trajano",
+    "ShowLocal": false
+  }
+}

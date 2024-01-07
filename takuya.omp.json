@@ -62,7 +62,7 @@
       "segments": [
         {
           "type": "node",
-          "style": "diamond",
+          "style": "powerline",
           "foreground": "#3C873A",
           "background": "#303030",
           "leading_diamond": " \ue0b6",
@@ -71,7 +71,7 @@
           "properties": {
             "fetch_package_manager": true,
             "npm_icon": " <#cc3a3a>\ue5fa</> ",
-            "yarn_icon": " <#348cba>\uf61a</>"
+            "yarn_icon": " <#348cba>\udb80\udd1b</>"
           }
         },
         {
@@ -82,7 +82,7 @@
           "background": "#40c4ff",
           "leading_diamond": " \ue0b6",
           "trailing_diamond": "\ue0b4",
-          "template": " \uf5ef {{ .CurrentDate | date .Format }} "
+          "template": "\udb80\udcf0 {{ .CurrentDate | date .Format }} "
         }
       ]
     },
@@ -100,10 +100,11 @@
           "type": "executiontime",
           "style": "plain",
           "foreground": "#e0f8ff",
-          "foreground_templates": ["{{ if gt .Code 0 }}#ef5350{{ end }}"],
-          "template": "❯{{ if gt .Code 0 }}\uf00d{{ else }}\uf42e{{ end }} ",
+          "template": "❯{{ .FormattedMs }} ",
           "properties": {
-            "always_enabled": true
+            "always_enabled": true,
+            "display_exit_code": false,
+            "error_color": "#ef5350"
           }
         }
       ],
